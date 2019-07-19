@@ -31,8 +31,12 @@ app.get("/api/hello", function (req, res) {
 // GET [project_url]/api/timestamp/:date_string?
 app.get('/api/timestamp/:date_string?', function(request, response, next){
   let time = new Date();
-  if(request.params.date_string !== '') {
-    time = new Date(request.params.date_string);
+  if(request.params.date_string !== undefined) {
+    if(request.params.date_string.indexOf('-') === -1){
+      time = new Date(parseInt(request.params.date_string));
+    } else {    
+      time = new Date(request.params.date_string);
+    }
   }
   request.time = time.toUTCString();
 //  request.unix = Math.floor(time / 1000);
